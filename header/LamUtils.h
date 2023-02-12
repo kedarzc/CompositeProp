@@ -14,5 +14,7 @@ class LamUtils
 			const double nu12, const double nu13, const double nu23, Matrix <double, 6, 6>& S);
 		void CalcStiffnessMat(const Matrix<double, 6, 6>& S, Matrix<double, 6, 6>& C);
 
+		void AddLamTransfMat(Matrix<double, 6, 6>& stiff, Matrix<double, 6, 6>& stiffkth, const double t, const double tk);
+
 };
 
