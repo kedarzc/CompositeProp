@@ -107,7 +107,7 @@ void LamUtils::AddLamTransfMat(Matrix <double, 6, 6>& stiff, Matrix <double, 6, 
 	{
 		for (int j = 0; j < 6; j++)
 		{
-			stiff[i, j] = stiff[i, j] + (tk / t) * stiffkth[i, j];
+			stiff(i, j) = stiff(i, j) + (tk / t) * stiffkth(i, j);
 		}
 	}
 }
