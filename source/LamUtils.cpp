@@ -100,3 +100,14 @@ void LamUtils::CalcStiffnessMat(const Matrix <double, 6, 6>& S, Matrix <double, 
 	C = S.inverse();
 
 }
+
+void LamUtils::AddLamTransfMat(Matrix <double, 6, 6>& stiff, Matrix <double, 6, 6>& stiffkth, const double t, const double tk)
+{
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < 6; j++)
+		{
+			stiff[i, j] = stiff[i, j] + (tk / t) * stiffkth[i, j];
+		}
+	}
+}
