@@ -14,14 +14,14 @@ int main() {
 	vector<double> thetaLaminaDegrees;
 
 	// Add angles
+	thetaLaminaDegrees.push_back(0.0);
 	thetaLaminaDegrees.push_back(90.0);
-	//thetaLaminaDegrees.push_back(90.0);
-	//thetaLaminaDegrees.push_back(30.0);
-	//thetaLaminaDegrees.push_back(-30.0);
-	//thetaLaminaDegrees.push_back(-30.0);
-	//thetaLaminaDegrees.push_back(30.0);
-	//thetaLaminaDegrees.push_back(90.0);
-	//thetaLaminaDegrees.push_back(0.0);
+	thetaLaminaDegrees.push_back(30.0);
+	thetaLaminaDegrees.push_back(-30.0);
+	thetaLaminaDegrees.push_back(-30.0);
+	thetaLaminaDegrees.push_back(30.0);
+	thetaLaminaDegrees.push_back(90.0);
+	thetaLaminaDegrees.push_back(0.0);
 
 	double t = 6, tk = t/thetaLaminaDegrees.size();
 	LamUtils M;
@@ -32,11 +32,11 @@ int main() {
 	//Initialize C matrix
 	CLam.setZero();
 
+	// Calculate S'
+	M.CalcComplianceMat(145880, 13312, 13312, 4386, 4386, 4528, 0.263, 0.263, 0.470, SDash);
+
 	for (int k = 0; k < thetaLaminaDegrees.size(); k++)
 	{
-		// Calculate S'
-		M.CalcComplianceMat(145880, 13312, 13312, 4386, 4386, 4528, 0.263, 0.263, 0.470, SDash);
-
 		// Calculate T
 		M.CalcLamTransfMat(thetaLaminaDegrees[k], A);
 		M.CalcRotMat(A, T);
