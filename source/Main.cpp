@@ -11,19 +11,10 @@ using namespace Eigen;
 
 int main() {
 
-	vector<double> thetaLaminaDegrees;
+	vector<double> thetaLaminaDegrees{0.0,90.0};
 
-	// Add angles
-	thetaLaminaDegrees.push_back(0.0);
-	thetaLaminaDegrees.push_back(90.0);
-	thetaLaminaDegrees.push_back(30.0);
-	thetaLaminaDegrees.push_back(-30.0);
-	thetaLaminaDegrees.push_back(-30.0);
-	thetaLaminaDegrees.push_back(30.0);
-	thetaLaminaDegrees.push_back(90.0);
-	thetaLaminaDegrees.push_back(0.0);
-
-	double t = 6, tk = t/thetaLaminaDegrees.size();
+	double tk = 1.5;
+	double t = tk * size(thetaLaminaDegrees);
 	LamUtils M;
 	Matrix3d A;
 	Matrix <double, 6, 6> T;
@@ -39,10 +30,11 @@ int main() {
 	{
 		// Calculate T
 		M.CalcLamTransfMat(thetaLaminaDegrees[k], A);
+
 		M.CalcRotMat(A, T);
 
 		// Calculate rotated S from Sdash and T
-		S = T.transpose() * SDash * T;
+		S = (T.transpose() * SDash) * T;
 
 		// Calculate the Stiffness
 		M.CalcStiffnessMat(S, CDash);
@@ -51,11 +43,23 @@ int main() {
 		//M.AddLamTransfMat(CLam, CDash, t, tk);
 	}
 
-
 	SLam = CLam.inverse();
 
-	cout << 1.0/  SLam(0,0) << endl;
-	cout << 1.0 / SLam(1, 1) << endl;
-	cout << 1.0 / SLam(2, 2) << endl;
+	//cout << endl << CLam ;
+	//cout << endl << t << endl << tk << endl;
+	//cout << endl << SLam;
 	
+	cout << "Laminate properties" << endl;
+	cout << "===================" << endl;
+	cout << "EXX = " << 1.0 / SLam(0, 0) << endl;
+	cout << "EYY = " << 1.0 / SLam(1, 1) << endl;
+	cout << "EZZ = " << 1.0 / SLam(2, 2) << endl;
+
+	cout << "GXY = " << 1.0 / SLam(5, 5) << endl;
+	cout << "GXZ = " << 1.0 / SLam(4, 4) << endl;
+	cout << "GYZ = " << 1.0 / SLam(3, 3) << endl;
+
+	cout << "nuXY = " << -SLam(0, 1)*(1.0 / SLam(1, 1)) << endl;
+	cout << "nuXZ = " << -SLam(0, 2)*(1.0 / SLam(2, 2)) << endl;
+	cout << "nuYZ = " << -SLam(1, 2)*(1.0 / SLam(2, 2)) << endl;
 }
